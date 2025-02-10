@@ -1,0 +1,4 @@
+# diplomka
+# StockWise
+# StockWise
+# StockWIse

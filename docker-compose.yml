@@ -1,25 +1,35 @@
 version: "3.8"
 
 services:
+  postgres:
+    image: postgres:15
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: stockwise-db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
   backend:
-    build:
-      context: ./be/StockWise
-      dockerfile: Dockerfile
     container_name: stockwise-backend
+    restart: always
+    depends_on:
+      - postgres
+    build:
+      context: ./
+      dockerfile: Dockerfile
     ports:
       - "8000:8000"
     environment:
       - DJANGO_SETTINGS_MODULE=StockWise.settings
-      - DATABASE_URL=postgres://<SUPABASE_USER>:<SUPABASE_PASSWORD>@<SUPABASE_HOST>:5432/<SUPABASE_DB>
-    volumes:
-      - ./be/StockWise:/app # Mapování složky pro automatický reload
-    command: ["python", "manage.py", "runserver", "0.0.0.0:8000"] # Používáme Django dev server pro reload
+      - DATABASE_URL=postgres://postgres:postgres@postgres:5432/stockwise_test
+      #- DATABASE_URL=postgres://<SUPABASE_USER>:<SUPABASE_PASSWORD>@<SUPABASE_HOST>:5432/<SUPABASE_DB>
+    command: [ "python", "manage.py", "runserver", "0.0.0.0:8000" ]
 
   frontend:
     build:
       context: ./fe
       dockerfile: Dockerfile
-    container_name: stockwise-frontend
     ports:
       - "3000:3000"
     depends_on:
@@ -27,4 +37,4 @@ services:
     volumes:
       - ./fe:/pages
       - /app/node_modules
-    command: ["npm", "run", "dev"]
+    command: [ "npm", "run", "dev" ]

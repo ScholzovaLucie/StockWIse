@@ -35,6 +35,6 @@ services:
     depends_on:
       - backend
     volumes:
-      - ./fe:/pages
+      - ./fe:/app
       - /app/node_modules
     command: [ "npm", "run", "dev" ]

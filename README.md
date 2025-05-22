@@ -6,7 +6,7 @@ Kompletní open-source skladová aplikace využívající **Django + PostgreSQL*
 
 ## 🚀 Spuštění projektu (lokálně přes Docker)
 
-1. **Zkopíruj `.env` soubor do složky** `be/`.
+1. **Zkopíruj `.env` soubor do složky** `be/StockWise/`.
 2. Spusť v rootu:
 
 ```bash
